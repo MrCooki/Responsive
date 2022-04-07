@@ -1,5 +1,5 @@
 
-from flask import Flask, session, render_template, request, url_for, redirect
+from flask import Flask, session, render_template, request, url_for, redirect, make_response
 import settings
 import hashlib
 import secrets
@@ -8,10 +8,21 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 @app.route("/<settings_hash>", methods=['GET'])
 def index(settings_hash = None):
-    if settings_hash is not None: 
-        return
-
-    return render_template('index.html')
+    if settings_hash is None:
+        resp = make_response(200)
+        return resp
+    resp = make_response({"Status":200}, 200)
+    del resp.headers['Server']
+    file_data = load_setings(settings_hash)
+    for f in file_data:
+        header_name = f.split(":", 1)[0].strip("\n").strip()
+        header_value = f.split(":", 1)[1].strip("\n").strip()
+        print(resp.headers)
+        del resp.headers[header_name]
+        print(resp.headers)
+        resp.headers[header_name] = header_value
+        print(resp.headers)
+    return resp
 
 
 @app.route('/headers_settings', methods=['GET','POST'])
