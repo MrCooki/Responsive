@@ -62,5 +62,3 @@ def save_settings(hash, data):
     for d in data:
         file_data.write(d+"\n")
     return 
-
-app.run(host='0.0.0.0', port='8000')

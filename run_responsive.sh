@@ -1,0 +1,1 @@
+FLASK_APP=${HOME}/Responsive/app.py flask run

@@ -1,0 +1,13 @@
+[Unit]
+ Description=Responsive Web Service
+ After=network.target
+
+ [Service]
+ User=www-data
+ Group=www-data
+ WorkingDirectory=/var/www/Responsive
+ ExecStart=/usr/bin/gunicorn --workers 3 --bind unix:/var/www/application.sock wsgi:app
+
+
+ [Install]
+ WantedBy=multi-user.target
